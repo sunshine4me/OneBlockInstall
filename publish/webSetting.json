@@ -3,6 +3,6 @@
   "WebSetting": {
     "DefultPassword": "123456",
     "DefultUseAdminSpace": true,
-    "Register": false
+    "Register": true
   }
 }
