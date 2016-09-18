@@ -1,12 +1,13 @@
 
-[在线 demo](http://139.196.177.74:5000/)
+[OneBlock 在线 demo](http://139.196.177.74:5000/)
 
-[源码](https://github.com/sunshine4Cpic/OneBlock)
+[OneBlock 源码](https://github.com/sunshine4Cpic/OneBlock)
 
-chromeDriver示例 源码 在win7版本下的 chromeBlock.rar
+chromeDriver示例 源码 在win7版本下的 [chromeBlock.rar](https://github.com/sunshine4Cpic/OneBlockInstall/blob/win7-x64/chromeBlock.rar) 
 
 [chromeDriver示例 源码](https://github.com/sunshine4Cpic/chromeBlock)
 
+### 启动OneBlock后访问  http://localhost:5000
 
 ## Windows 7(x64) / Windows Server 2008 R2(x64)
 ##### 1. 安装Visual C++ 运行库 
@@ -14,6 +15,7 @@ chromeDriver示例 源码 在win7版本下的 chromeBlock.rar
 
 ##### 2. 运行OneBlock
 下载win7-x64版本,运行oneBlockWeb.exe文件
+
 
 ## Windows 10
 ##### 1. 运行OneBlock
