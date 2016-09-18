@@ -1,6 +1,6 @@
 {
   "runtimeTarget": {
-    "name": ".NETCoreApp,Version=v1.0/osx.10.10-x64",
+    "name": ".NETCoreApp,Version=v1.0/osx.10.11-x64",
     "signature": "9fff932c7aaa11bb2fad6ae20164de9224e6f9b8"
   },
   "compilationOptions": {
@@ -2982,7 +2982,7 @@
         }
       }
     },
-    ".NETCoreApp,Version=v1.0/osx.10.10-x64": {
+    ".NETCoreApp,Version=v1.0/osx.10.11-x64": {
       "oneBlockWeb/1.0.0": {
         "dependencies": {
           "Microsoft.NETCore.App": "1.0.0",
