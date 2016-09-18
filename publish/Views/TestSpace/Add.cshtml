@@ -1,0 +1,53 @@
+﻿@model TestSapceAddModel
+@{
+    ViewBag.Title = "TestSpace创建";
+}
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <form asp-controller="TestSpace" asp-action="Add" method="post" class="form-horizontal SpaceForm">
+            <div>
+                <h2>创建一个新的 TestSpace</h2>
+                <p>
+                    每个 TestSpace 表示一套组件结构（使用json文件描述）。
+                </p>
+            </div>
+            <div class="clearfix">
+                <dl>
+                    <dt class="input-label">
+                        <label asp-for="name"></label>
+                    </dt>
+                    <dd>
+                        <input asp-for="name" class="form-control" />
+                        <span asp-validation-for="name" class="text-danger"></span>
+                    </dd>
+                </dl>
+            </div>
+            <div class="clearfix">
+                <dl>
+                    <dt class="input-label">
+                        <label asp-for="describe"></label>
+                    </dt>
+                    <dd>
+                        <input asp-for="describe" class="form-control" style="max-width:none" />
+                        <span asp-validation-for="describe" class="text-danger" ></span>
+                    </dd>
+                </dl>
+            </div>
+            <label asp-for="spacedata"></label>
+            <textarea type="text" asp-for="spacedata" id="spacedata" rows="20"></textarea>
+            <p>
+                <div class="btn-group btn-group-sm">
+                    <button type="submit" class="btn btn-primary" style="padding-left:20px;padding-right:20px;">提交修改</button>
+                    <button type="button" class="btn btn-warning format">校验</button>
+                </div>
+            </p>
+            <pre id="result" style="display: none;"></pre>
+        </form>
+
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_JsonScriptsPartial");
+    }
+}

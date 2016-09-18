@@ -1,0 +1,307 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+
+}
+.logo{
+    padding-top:11px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding: 15px;
+    padding-bottom: 0px;
+}
+
+/* Set widths on the form inputs since otherwise they're 100% wide */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+iframe{
+    min-height:700px;
+    overflow-y:auto;
+}
+
+.form-control {
+    background-color: #fafafa;
+}
+
+    .form-control:focus {
+        background-color: #fff;
+    }
+    .col-md-3
+    {
+        padding:0px;
+    }
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
+
+i {
+    margin-right: 5px;
+}
+
+a:hover, a:focus {
+    color: #4078c0;
+    text-decoration: none;
+}
+
+.panel {
+    border-radius: 3px;
+}
+.tree-icon.fa-cubes{
+    font-size:14px;
+}
+
+/*navbar*/
+/*整体风格 蓝色*/
+/*.navbar.navbar-fixed-top {
+    background: #0767c8;
+    border-bottom: 1px solid #044e97;
+}
+
+.navbar-inverse .navbar-nav > li > a  {
+   color: #f2f4f5;
+}
+ .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
+    background: #0c559e;
+}
+ .navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus {
+    background: #0c559e;
+}
+
+
+@media (max-width: 767px) {
+    .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
+        color: #f2f4f5;
+    }
+
+    .navbar-inverse .navbar-nav .open .dropdown-menu .divider {
+        background-color: #3F7FAB;
+    }
+
+    .navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
+        border-color: #044e97;
+    }
+
+    .navbar-nav .open .dropdown-menu {
+        background-color:  #0767c8;
+    }
+}
+
+.navbar-inverse .navbar-toggle {
+    border:none;
+}
+
+.navbar-inverse .navbar-brand
+{
+    color: #f2f4f5;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    color: #FFF;
+    background-color: #317DDA;
+}*/
+
+
+/*navbar end*/
+
+
+
+
+/*navbar*/
+/*整体风格*/
+.navbar.navbar-fixed-top {
+    background: #292929;
+    border-bottom: 1px solid #044e97;
+}
+
+.navbar-inverse .navbar-nav > li > a  {
+   color: #f2f4f5;
+}
+ .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
+    background: rgb(0,0,0);
+}
+ .navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus {
+    background: rgb(0,0,0);
+}
+
+
+
+.navbar-inverse .navbar-toggle {
+    border:none;
+}
+
+.navbar-inverse .navbar-brand
+{
+    color: #f2f4f5;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    color: #FFF;
+    background-color: #317DDA;
+}
+
+
+/*navbar end*/
+
+/*下拉菜单样式*/
+/*.navbar-nav > li > .dropdown-menu {
+    margin-top: 8px;
+}
+
+.dropdown-menu-sw::before {
+    top: -16px;
+    left: 15px;
+    right: auto;
+}
+
+.dropdown-menu::before {
+    border: 8px solid transparent;
+    border-bottom-color: rgba(0,0,0,0.15);
+}
+
+.dropdown-menu::before, .dropdown-menu::after {
+    position: absolute;
+    display: inline-block;
+    content: "";
+}
+
+.dropdown-menu-sw::after {
+    top: -14px;
+    left: 16px;
+    right: auto;
+}
+
+.dropdown-menu::after {
+    border: 7px solid transparent;
+    border-bottom-color: #fff;
+}
+
+.dropdown-menu::before, .dropdown-menu::after {
+    position: absolute;
+    display: inline-block;
+    content: "";
+}*/
+/*下拉菜单 end*/
+
+
+
+/*图标样式*/
+
+
+td[field="locked"] .fa-ban {
+    color: #ec494e;
+}
+
+
+
+/*验证控件,显示样式*/
+.input-validation-error {
+    border: 1px dotted red;
+}
+
+.panel-heading {
+    font-weight: bold;
+}
+
+/*menu*/
+.nav-stacked > li + li {
+    margin-top: 0px;
+    border-top: 1px solid #eee;
+}
+
+.nav-pills > li > a {
+    border-radius: 0px;
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    font-weight: bold;
+    background-color: inherit;
+    color: #222;
+    cursor: default;
+}
+
+.nav-pills li.active::before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 2px;
+    content: "";
+    background-color: #d26911;
+}
+/*auto-line-number*/
+.SpaceForm textarea {
+    max-width: none;
+    width: 100%;
+}
+
+.SpaceForm .textarea-group {
+    margin-bottom: 10px;
+}
+
+.textarea-group {
+    border: 1px solid #ddd;
+}
+
+    .textarea-group textarea {
+        border-color: transparent;
+        outline: none;
+        background-color: transparent;
+    }
+
+        .textarea-group textarea:focus {
+            background-color: #fff;
+        }
+
+.textarea-rows > div {
+    text-align: right;
+    padding-right: 0.5em;
+}
+
+.redBorder {
+    border: 1px solid red !important;
+}
+
+/*auto-line-number end*/
+
+.my-testspaces > li {
+    padding: 6px 64px 6px 40px;
+}
+
+.my-testspaces .describe {
+    display: block;
+    max-width: 100%;
+    font-size: 12px;
+    line-height: 21px;
+    color: #767676;
+}
+
+
+.my-testspaces .space-fa {
+    float: left;
+    margin-top: 2px;
+    margin-left: -24px;
+}
+
+

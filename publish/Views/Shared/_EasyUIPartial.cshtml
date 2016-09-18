@@ -1,0 +1,33 @@
+﻿<link rel="stylesheet" href="~/lib/easyUI/themes/icon.css" />
+<script src="~/lib/easyUI/easyloader.js"></script>
+<script type="text/javascript">
+        easyloader.locale = "zh_CN";
+        easyloader.theme = "metro";
+        $(function () {
+            $(document).ajaxError(function (event, xhr, options, exc) {
+                if (!options.ajaxError) return;
+                if (xhr.status == 'undefined') {
+                    return;
+                }
+                switch (xhr.status) {
+                    case 403:
+                        // 未授权异常
+                        alert("系统拒绝：您没有访问权限或登录已过期。");
+                        break;
+                    case 404:
+                        alert("您访问的资源不存在。");
+                        break;
+                    case 500:
+                        alert("出错啦,请联系管理员。");
+                        break;
+                    default:
+                        alert("服务器错误:" + xhr.status);
+                }
+            });
+
+            $(document).ajaxStop(function () {
+                $.messager.progress('close');
+            });
+            
+        });
+</script>

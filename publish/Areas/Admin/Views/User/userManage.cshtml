@@ -1,0 +1,154 @@
+﻿@{
+    ViewData["Title"] = "用户管理";
+}
+
+
+
+
+<table id="UserTable" class="easyui-datagrid" title="用户管理"
+       data-options="rownumbers:true,singleSelect:true,iconCls:'fa fa-user',toolbar:'#Tool',
+       pageSize: 10,pagination:true,method:'get',url:'userList',onDblClickRow:onDblClickRow,
+       collapsible:true">
+
+    <thead>
+        <tr>
+            <th data-options="field:'locked',width:60,align:'center',formatter:locked_format">状态</th>
+            <th data-options="field:'username',width:140,align:'center'">帐号</th>
+            <th data-options="field:'name',width:200,align:'center'">昵称</th>
+
+            <th data-options="field:'joinDate',width:200,align:'center'">创建时间</th>
+
+            <th data-options="field:'lv',width:140,formatter:lv_format">用户类型</th>
+        </tr>
+    </thead>
+</table>
+<div id="Tool" style="padding:5px;height:auto">
+    <a class="easyui-linkbutton"  title="新增" data-options="plain:true,iconCls:'icon-add'" data-toggle="modal" data-target="#addModal">新增</a>
+</div>
+
+<!-- 模态框（修改） -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" data-backdrop="static"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+           
+        </div>
+    </div>
+</div>
+
+<!-- 模态框（新增） -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" data-backdrop="static"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @Html.Partial("_addUser", new addUserModel());
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{ 
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("_EasyUIPartial");
+        }
+    
+    <script type="text/javascript">
+        using("messager");
+
+        function lv_format(value, row, index) {
+            if (value == 99) {
+                return '超级管理员';
+            } else if (value >= 90) {
+                return '管理员';
+            } else
+                return "普通用户";
+        }
+
+        function locked_format(val, row) {
+            if (val == true) {
+                return '<i class="fa fa-ban"></i>';
+            } else {
+                return '<i class="fa fa-user"></i>';
+            }
+        }
+
+
+        function onDblClickRow(rowIndex, rowData) {
+            if (rowData.lv == 99) {
+                alert("超级管理员无法修改");
+                return;
+            }
+            $.messager.progress({ title: '请稍后', msg: '加载中...' });
+
+
+            $("#editModal .modal-content").load("edit/" + rowData.id, function () {
+                $.validator.unobtrusive.parse($(this));
+                //绑定事件
+                $("#editModal form").submit(function () {
+                    $.messager.progress({ title: '请稍后', msg: '提交中...' });
+                    if (!$(this).valid()) return false;
+                    jQuery.ajax({
+                        url: $(this).attr("action"),
+                        data: $(this).serialize(),
+                        type: "POST",
+                        success: function (responseText) {
+                            $.messager.progress('close');
+                            $("#editModal").modal("hide");
+                            $('#UserTable').datagrid('reload');
+                        }
+                    });
+                    return false;
+                })
+
+                $.messager.progress('close');
+                $('#editModal').modal('show');
+            });
+        }
+
+        $("#addModal form").submit(function () {
+            if (!$(this).valid()) return false;
+            jQuery.ajax({
+                url: $(this).attr("action"),
+                data: $(this).serialize(),
+                type: "POST",
+                success: function (responseText) {
+                    $("#addModal").modal("hide");
+                    $('#UserTable').datagrid('reload');
+                }
+            });
+            return false;
+        })
+       
+
+
+        function lock(id) {
+            $.messager.progress({ title: '请稍后', msg: '提交中...' });
+            $.post("lock", { id: id }, function (result) {
+                $.messager.progress('close');
+                $('#editModal').modal('hide');
+                $('#UserTable').datagrid('reload');
+            });
+        }
+
+        function unlock(id) {
+            $.messager.progress({ title: '请稍后', msg: '提交中...' });
+            $.post("unlock", { id: id }, function (result) {
+                $.messager.progress('close');
+                $('#editModal').modal('hide');
+                $('#UserTable').datagrid('reload');
+            });
+        }
+
+        function resetPassword(id) {
+            if (!confirm("确认重置该用户密码？")) return;
+            $.messager.progress({ title: '请稍后', msg: '提交中...' });
+            $.post("resetPassword", { id: id }, function (result) {
+                $.messager.progress('close');
+                $('#editModal').modal('hide');
+            });
+        }
+
+    </script>
+}

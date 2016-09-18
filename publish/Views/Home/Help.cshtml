@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "平台教程";
+}
+@section Scripts {
+    <link href="~/css/docs.min.css" rel="stylesheet">
+    <script src="~/js/docs.min.js"></script>
+
+
+    <style>
+        h1[id], h2[id] {
+            padding-top: 50px;
+        }
+    </style>
+}
+
+<div class="row">
+
+    <div class="col-md-9" role="main">
+        @Html.Partial("_help")
+    </div>
+
+
+
+
+    <div class="col-sm-3 col-md-3">
+
+        <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" style="top:80px">
+            <ul class="nav bs-docs-sidenav">
+
+                <li>
+                    <a href="#help1">测试空间 TestSpace</a>
+                    <ul class="nav">
+                        <li><a href="#help1-1">结构</a></li>
+                        <li><a href="#help1-2">Step属性</a></li>
+                        <li><a href="#help1-3">创建</a></li>
+                        <li><a href="#help1-4">维护</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#help2">案例 TestCase</a>
+                    <ul class="nav">
+                        <li><a href="#help2-1">创建</a></li>
+                        <li><a href="#help2-2">移动</a></li>
+                        <li><a href="#help2-3">编辑</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#help3">模块 BlockStep</a>
+                    <ul class="nav">
+                        <li><a href="#help3-1">创建</a></li>
+                        <li><a href="#help3-2">维护</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#help4">动态参数 Param</a>
+                    <ul class="nav">
+                        <li><a href="#help4-1">定义</a></li>
+                        <li><a href="#help4-2">使用</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#help5">案例执行</a>
+                    <ul class="nav">
+                        <li><a href="#help5-1">案例传递</a></li>
+                        <li><a href="#help5-2">模块展开</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+            <a class="back-to-top" href="#top">
+                返回顶部
+            </a>
+
+
+        </nav>
+
+    </div>
+</div>

@@ -1,0 +1,32 @@
+﻿@model List<spaceListViewModel>
+@{
+    ViewBag.Title = "TestSpaces";
+}
+<div class="row">
+    <div class="col-md-3">
+        @Html.Partial("_MenuPartial", "TestSpaces")
+    </div>
+    <div class="col-md-9">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">你的 TestSpace <span class="pull-right"><a href="/TestSpace/add"><i class="fa fa-plus"></i>创建新的 TestSpace</a></span></div>
+            <ul class="list-group my-testspaces">
+                @foreach (var s in Model)
+                {
+                    <li class="list-group-item">
+                        <a  asp-action="Edit" asp-controller="TestSpace" asp-route-id="@s.id">
+                            <i class="fa fa-cogs space-fa"></i> 
+                            <span>@s.name</span> <span class="pull-right"></span>
+                            <span class="describe">@s.describe</span>
+                        </a>
+                    </li>
+
+                }
+
+               
+            </ul>
+        </div>
+    </div>
+
+</div>
+

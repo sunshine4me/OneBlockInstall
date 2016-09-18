@@ -1,0 +1,48 @@
+﻿@using Newtonsoft.Json;
+@model StepEditModel
+<div class="form-horizontal ">
+    <div class="modal-header">
+        <button type="button" class="close"
+                data-dismiss="modal" aria-hidden="true">
+            &times;
+        </button>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-8">
+                    <input class="form-control" type="text" id="stepDescribeEdit" value="@Model.describe">
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-body">
+        @foreach (var attr in Model.attrs) {
+            <div class="form-group" title="@attr.describe">
+                <label class="col-sm-4 control-label" >@attr.name</label>
+                <div class="col-sm-8">
+                    @if (attr.list == null) {
+                        <input class="form-control" type="text" name="@attr.name" placeholder="@attr.describe" value="@attr.value">
+                    } else {
+                        var jsObj = from t in attr.list
+                                    select new {
+                                        text = t.Key,
+                                        value = t.Value
+                                    };
+                        <input class="easyui-combobox" type="text" name="@attr.name" value="@attr.value" style="width:280px;height:30px"
+                               data-options="panelHeight:'auto',valueField: 'value',textField: 'text',data:@JsonConvert.SerializeObject(jsObj)">
+                    }
+
+                </div>
+            </div>
+        }
+    </div>
+    <div class="modal-footer">
+        <span class="alert-info pull-left">@Model.fullName</span>
+        <button type="button" class="btn btn-default"
+                data-dismiss="modal">
+            关闭
+        </button>
+        <button type="button" class="btn btn-primary submit">
+            提交更改
+        </button>
+    </div>
+</div>
+

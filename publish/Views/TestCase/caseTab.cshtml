@@ -1,0 +1,302 @@
+﻿
+
+@using Newtonsoft.Json
+@{
+    Layout = "_LayoutIframe";
+    ViewData["Title"] = "案例编辑";
+}
+@model caseTabModel
+<div class="editTab" data-id="@Model.id">
+    <div class="col-xs-8" style="padding:10px;margin-top:10px;">
+        <div class="easyui-panel" style="padding:1px 5px;">
+            <a href="#" class="easyui-linkbutton save" data-options="iconCls:'icon-save',plain:true">保存</a>
+            <a href="#" class="easyui-linkbutton build" data-options="iconCls:'fa fa-cubes',plain:true">组合</a>
+            <a href="#" class="easyui-linkbutton readyRun" data-options="iconCls:'fa fa-play',plain:true">保存并执行</a>
+        </div>
+
+        <ul id="caseViewTree" style="margin-top:10px;"></ul>
+    </div>
+
+    <div class="col-xs-4">
+        <div class="affix" style="border-left:1px solid #563d7c ;padding:10px;margin-top:10px;min-width:200px">
+            @Html.DropDownList("spaceID", Model.spaceSelect, new { @class = "form-control" })
+            <ul id="spaceStepTree" style="margin-top:10px;"></ul>
+
+            <img src="~/images/delete.png" id="delete" style="margin:15px;" title="拖拽步骤删除" />
+        </div>
+    </div>
+</div>
+
+
+<div id="treeMenu" class="easyui-menu" style="width:150px;">
+    <div class="stepEdit" data-options="iconCls:'icon-edit'">编辑步骤</div>
+    <div class="stepDelete" data-options="iconCls:'icon-remove'">删除步骤</div>
+</div>
+
+<div id="treeMenu2" class="easyui-menu" style="width:150px;">
+    <div class="stepEdit" data-options="iconCls:'icon-edit'">编辑步骤</div>
+    <div class="stepDelete" data-options="iconCls:'icon-remove'">删除步骤</div>
+    <div class="menu-sep"></div>
+    <div class="blockEdit" data-options="iconCls:'fa fa-cubes'">编辑Block</div>
+</div>
+
+<!-- 模态框（修改） -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" data-backdrop="static"
+     aria-labelledby="修改步骤" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+
+<!-- 模态框（组合） -->
+<div class="modal fade" id="buildModal" tabindex="-1" role="dialog" data-backdrop="static"
+     aria-labelledby="组合" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+<!-- 模态框（组合） -->
+<div class="modal fade" id="runModal" tabindex="-1" role="dialog" data-backdrop="static"
+     aria-labelledby="执行" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+@{ await Html.RenderPartialAsync("_EasyUIPartial");}
+<script src="~/js/editCaseTree.js"></script>
+<script>
+    $(document).ajaxStart(function () {
+        $.messager.progress({ title: '请稍后', msg: '努力加载中...' });
+    });
+
+    var _caseFactory = editCaseTreeModel();
+
+    using(["tree","messager"], function () {
+        var result= @Html.Raw(JsonConvert.SerializeObject(Model.steps));
+        var nodes = [];
+        for (var i in result) {
+            nodes.push(_caseFactory.formatToTreeData(result[i]));
+        }
+        var _option = {
+            data: nodes,
+            onContextMenu: function (e, node) {
+                e.preventDefault();
+                if(!node.name)
+                    return;
+
+                $(this).tree('select', node.target);
+
+                if(node.blockID>0){
+                    $('#treeMenu2').menu('show', {
+                        left: e.pageX - 20,
+                        top: e.pageY
+                    });
+
+                }else{
+                    $('#treeMenu').menu('show', {
+                        left: e.pageX - 20,
+                        top: e.pageY
+                    });
+
+                }
+
+
+
+            },
+            checkbox: function (node) {
+                if (node.hasOwnProperty('key') || node.blockID>0)
+                    return false;
+                else
+                    return true;
+            }
+        };
+        $.extend(_option,_caseFactory.caseViewTreeOption());
+
+        $('.editTab #caseViewTree').tree(_option);
+
+
+
+        $('#delete').droppable({
+            accept:'#caseViewTree div',
+            onDragEnter:function(e,source){
+                $(this).addClass("hover");
+            },
+            onDragLeave:function(e,source){
+                $(this).removeClass("hover");
+            },
+            onDrop:function(e,source){
+                $(this).removeClass("hover");
+
+                var length = $('#caseViewTree').tree("getRoots").length;
+                if(length>1)
+                    $('#caseViewTree').tree("remove",source);
+                return false;
+            }
+        });
+
+
+        _caseFactory.changeSpace();
+    });
+
+
+
+
+    $("#spaceID").change(_caseFactory.changeSpace);
+
+
+    $(".stepEdit").click(function(){
+        var node = $("#caseViewTree").tree('getSelected');
+        _caseFactory.stepEdit(node);
+    });
+
+
+    $(".save").click(function(){
+
+        $.messager.confirm('Message', '确认保存修改?', function (r) {
+            if(r){
+                var nodes= $('#caseViewTree').tree("getRoots");
+                var testCase =  _caseFactory.SerializeTestCase(nodes);
+                $.ajax({
+                    url: "/TestCase/save/"+$('.editTab').data("id"),
+                    type: 'POST',
+                    data: JSON.stringify(testCase),
+                    contentType: 'application/json',
+                    success: function (data) {
+                        $.messager.show({
+                            modal:true,
+                            title:'保存',
+                            msg:'案例保存成功',
+                            timeout:2000,
+                            showType:'null',
+                            style:{
+                                right:'',
+                                bottom:''
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+
+
+    });
+
+    $(".stepDelete").click(function(){
+
+        $.messager.confirm('Message', '确认删除该步骤?', function (r) {
+            if(r){
+                var length = $('#caseViewTree').tree("getRoots").length;
+                if(length>1){
+                    var node = $("#caseViewTree").tree('getSelected');
+                    $('#caseViewTree').tree("remove",node.target);
+                }
+            }
+        });
+    });
+
+    $(".blockEdit").click(function(){
+        var selectNode = $('#caseViewTree').tree("getSelected");
+        window.parent.editBlockStep(selectNode.blockID);
+    });
+
+
+    $(".build").click(function(){
+        var nodes = $('#caseViewTree').tree('getChecked');
+        if(nodes.length==0){
+            alert("请先勾选想组合的步骤");
+            return;
+        }
+        var testCase = _caseFactory.SerializeTestCase(nodes);
+
+        $.ajax({
+            url: "/BlockStep/build",
+            type: 'POST',
+            data: JSON.stringify(testCase),
+            contentType: 'application/json',
+            success: function (data) {
+                $("#buildModal .modal-content").html(data);
+                $("#buildModal .submit").click(function(){
+
+                    var submitData=_caseFactory.SerializeBuildForm($("#buildModal .modal-content"));
+
+                    var nodes= $('#caseViewTree').tree("getChecked");
+                    var testCase= _caseFactory.SerializeTestCase(nodes);
+                    submitData.testCase = testCase;
+
+                    jQuery.ajax({
+                        url: $(this).data("action"),
+                        data: JSON.stringify(submitData),
+                        contentType: 'application/json',
+                        type: "POST",
+                        success: function (responseText) {
+                            $('#buildModal').modal('hide');
+                            window.parent.editBlockStep(responseText);
+                        }
+                    });
+                });
+                $('#buildModal').modal('show');
+            }
+        });
+    });
+    $(".readyRun").click(function(){
+        var nodes= $('#caseViewTree').tree("getRoots");
+        var testCase= _caseFactory.SerializeTestCase(nodes);
+        var id = $('.editTab').data("id");
+
+        
+        $.ajax({
+            url: "/TestCase/readyRun/"+id,
+            type: 'POST',
+            data: JSON.stringify(testCase),
+            contentType: 'application/json',
+            success: function (result) {
+                if (result == ""){
+                    debugSubmit(id,{});
+                }else
+                {
+                    var sm = $("#runModal .modal-content");
+                    sm.empty();
+                    sm.html(result);
+                    //参数提交事件
+                    $("#runModal button.submit").click(function(){
+                        var attrs = {};
+                        $("#runModal input[name]").each(function () {
+                            attrs[this.name] = this.value;
+                        })
+                        debugSubmit(id,attrs);
+                    });
+
+                    $('#runModal').modal('show');
+                }
+            }
+        });
+    });
+    function debugSubmit(id,attrs)
+    {
+        $.post("/TestCase/runCase/"+id,attrs,function(result){//获取执行脚本
+            $.ajax({ url: "http://localhost:8500/testRun",
+                data: result,
+                ajaxError:false,
+                type:'post',
+                success: function(){
+                    $.messager.alert('Messager', '脚本开始执行!', "info");
+                },
+                error:function(err){
+                    $.messager.alert('Error', '调用本机出错啦! <br> errorStatus:'+err.status+"<br> errorMessage:"+err.responseText, "error");
+                    return 123;
+                }
+            });
+        });
+    }
+
+</script>

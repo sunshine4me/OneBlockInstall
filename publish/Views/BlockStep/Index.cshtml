@@ -1,0 +1,156 @@
+﻿@{
+    ViewData["Title"] = "BlockStep编辑";
+}
+
+<div class="row">
+    <div class="col-md-3">
+
+        <div id="p" class="easyui-panel" data-options="iconCls:'glyphicon glyphicon-th-large'" title="BlockStep列表" style="width:100%;min-height:200px;padding:10px;">
+            <ul id="blockTreeList"></ul>
+        </div>
+
+
+    </div>
+
+    <div id="paneltab" class="easyui-tabs col-md-9">
+        <div title="帮助" data-options="iconCls:'icon-help',closable:true" style="padding:10px">
+            <div class="bs-docs-section">
+
+                <h2 id="help3-2">维护 BlockStep</h2>
+                <p>
+                    <ul>
+                        <li>BlockStep是以引用的形式存在于案例中，修改将作用于所有使用他的案例上。</li>
+                        <li>BlockStep删除不会影响已有案例，案例中已删除的BlockStep将视为空节点</li>
+                        <li>BlockStep可随时修改其动态参数（Param），但不会影响已有的案例，原有案例中的缺省参数都将使用其默认值。</li>
+                    </ul>
+                </p>
+                <div class="bs-example" data-example-id="body-copy">
+                    <img class="img-responsive" src="~/help/help7.png" />
+                </div>
+
+                <p class="lead">模块（BlockStep）由多个基础组件（Step）组成。</p>
+                <div class="bs-example">
+                    <p>模块生成：</p>
+                    <img class="img-responsive" src="~/help/help12.png" />
+                    <p>模块展开：</p>
+                    <img class="img-responsive" src="~/help/help11.png" />
+                </div>
+
+                
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div id="BlockStepMenu" class="easyui-menu" style="width:150px;">
+    <div class="editBlockStep" data-options="iconCls:'icon-edit'">编辑</div>
+    <div class="BlockStepDelete" data-options="iconCls:'icon-remove'">删除</div>
+</div>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("_EasyUIPartial");
+    }
+
+    <script type="text/javascript">
+
+        $(document).ajaxStart(function () {
+            $.messager.progress({ title: '请稍后', msg: '努力加载中...' });
+        });
+
+        using(["tree", "messager"], function () {
+            $('#blockTreeList').tree({
+                checkbox: false,
+                lines: true,
+                animate: true,
+                url: 'BlockTreeData',
+                dataFormat: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        data[i].text = "Block." + data[i].id + " : " + data[i].name;
+                        data[i].iconCls = "fa fa-cubes";
+                    }
+                },
+                onContextMenu: function (e, node) {
+                    e.preventDefault();
+                    $(this).tree('select', node.target);
+                    $('#BlockStepMenu').menu('show', {
+                        left: e.pageX - 20,
+                        top: e.pageY - 1
+                    });
+
+                },
+            });
+        });
+        $(".BlockStepDelete").click(function () {
+            var node = $("#blockTreeList").tree("getSelected");
+            var msg = ' <span style=\'color:blue\'>' + node.text + '</span>';
+
+
+
+            $.messager.confirm('Message', '确认删除:' + msg + '?', function (r) {
+                if (r) {
+                    $.post("/BlockStep/Delete", { ID: node.id }, function (result) {
+                        $("#blockTreeList").tree("remove", node.target);
+                    });
+                }
+            });
+
+        });
+        
+
+        $(".editBlockStep").click(function () {
+            var selectNode = $('#blockTreeList').tree("getSelected");
+            var tbs = $('#paneltab').tabs("tabs");
+
+            //删除已经打开的tab
+            for (var i = 0; i < tbs.length; i++) {
+                if (tbs[i].panel('options').id == selectNode.id) {
+                    $('#paneltab').tabs("close", i);
+                    break;
+                }
+            }
+            editBlockStep(selectNode);
+
+        });
+
+        function editBlockStep(node) {
+            $('#paneltab').tabs('add', {
+                id: node.id,
+                height: "100%",
+                title: "Block." + node.id,
+                iconCls: 'icon-cubes',
+                content: '<iframe scrolling="yes" frameborder="0"  src="/BlockStep/editTab/' + node.id + '" style="width:100%;"></iframe>',
+                closable: true,
+                tools: [{
+                    iconCls: 'icon-mini-refresh',
+                    handler: function () {
+                        $.messager.confirm('Message', '确认重新载入:' + "Block." + node.id + '?', function (r) {
+                            if (r) {
+                                var tbs = $('#paneltab').tabs("tabs");
+                                //删除已经打开的tab
+                                for (var i = 0; i < tbs.length; i++) {
+                                    if (tbs[i].panel('options').id == node.id) {
+                                        var iframe = $(tbs[i]).find("iframe")[0];
+                                        iframe.src = iframe.src;
+                                        break;
+                                    }
+                                }
+                            }
+                        });
+
+                    }
+                }]
+            });
+
+        }
+
+
+    </script>
+}

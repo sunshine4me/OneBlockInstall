@@ -1,0 +1,70 @@
+﻿@model TestSapceAddModel
+@{
+    ViewBag.Title = "TestSpace编辑";
+}
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+
+
+        <form asp-controller="TestSpace" asp-action="Edit" asp-route-id="@ViewData["id"]" method="post" class="form-horizontal SpaceForm">
+            <div class="clearfix">
+                <dl>
+                    <dt class="input-label">
+                        <label asp-for="name"></label>
+                    </dt>
+                    <dd>
+                        <input asp-for="name" class="form-control" />
+                        <span asp-validation-for="name" class="text-danger"></span>
+                    </dd>
+                </dl>
+            </div>
+            <div class="clearfix">
+                <dl>
+                    <dt class="input-label">
+                        <label asp-for="describe"></label>
+                    </dt>
+                    <dd>
+                        <input asp-for="describe" class="form-control" style="max-width:none" />
+                        <span asp-validation-for="describe" class="text-danger"></span>
+                    </dd>
+                </dl>
+            </div>
+            <label asp-for="spacedata"></label>
+            <textarea type="text" asp-for="spacedata" id="spacedata" rows="20"></textarea>
+            <p>
+                <div class="btn-group btn-group-sm">
+                    <button type="submit" class="btn btn-primary" style="padding-left:20px;padding-right:20px;">提交修改</button>
+                    <button type="button" class="btn btn-warning format">校验</button>
+                </div>
+                <div class="pull-right">
+                    <a class="btn btn-danger" method="post" confirm="确认删除?" href="/TestSpace/Delete/@ViewData["id"]">删除</a>
+                </div>
+            </p>
+            <pre id="result" style="display: none;"></pre>
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_JsonScriptsPartial");
+    }
+}
+<script>
+
+    $("a[method=post]").click(function () {
+        var cf = true;
+        if (this.getAttribute("confirm"))
+            cf = confirm(this.getAttribute("confirm"));
+        if (cf) {
+            var temp = document.createElement("form");
+            temp.action = this.href;
+            temp.method = "post";
+            temp.style.display = "none";
+            document.body.appendChild(temp);
+            temp.submit();
+        }
+        return false;
+    });
+</script>

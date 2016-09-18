@@ -1,0 +1,79 @@
+﻿
+.redBorder {
+    border: 1px solid #ff0000;
+}
+
+input, select, textarea {
+    max-width: 280px;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    height: 30px !important;
+}
+
+    input::-webkit-input-placeholder {
+        color: #D6D0CA !important;
+    }
+
+　　input:-moz-placeholder {
+    color: #D6D0CA !important;
+}
+
+　　input::-moz-placeholder {
+    color: #D6D0CA !important;
+}
+
+　　input:-ms-input-placeholder {
+    color: #D6D0CA !important;
+}
+
+
+.form-control {
+    border-radius: 0px;
+    color: #555;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+form.small input {
+    font-size: 12px !important;
+}
+
+.form-group {
+    margin-bottom: 5px;
+}
+
+.modal-header {
+    padding-bottom: 10px;
+}
+
+.btn {
+    padding: 4px 8px;
+}
+
+.grey .tree-icon {
+    color: #ddd;
+}
+
+.fa-wrench {
+    color: #222222 !important;
+}
+
+.l-btn-icon.fa {
+    font-size: 14px !important;
+}
+
+
+img#delete.hover {
+    background: #e7f9fe;
+}
+
+select optgroup {
+    color: #cfcfcf;
+}
+
+    select optgroup option {
+        color: #555;
+    }
+.newStep{
+    background-color:#ffebca;
+}

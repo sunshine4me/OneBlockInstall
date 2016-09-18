@@ -1,0 +1,14 @@
+﻿@model string
+
+<div class="panel panel-default menu">
+    <div class="panel-heading">个人设置</div>
+
+    <ul class="nav nav-pills nav-stacked">
+        @foreach (var d in oneBlockWeb.Controllers.SettingController.MenuDic)
+        {
+            <li class="@(Model == d.Key ? "active" : "")"><a href="@d.Key">@d.Value</a></li>
+        }
+    </ul>
+</div>
+
+

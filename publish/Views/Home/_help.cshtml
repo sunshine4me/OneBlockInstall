@@ -1,0 +1,209 @@
+﻿<div class="bs-docs-section">
+    <h1 id="help1" class="page-header">测试空间 TestSpace</h1>
+
+    <p class="lead">在OneBlock中，使用模块化的方式管理案例。一个TestSpace中包含多个基础步骤（Step）。</p>
+
+    <h2 id="help1-1">TestSpace的结构</h2>
+    <p>每个TestSpace中包含着一些基础组件（Step），以json形式保存。</p>
+    <div class="table_box">
+        <pre>
+[
+    {
+        "name": "InitStep",
+        "describe": "启动浏览器",
+        "attrs":......
+    },
+    {
+        "name": "ClickStep",
+        "describe": "点击",
+        "attrs":......
+    },
+    ......
+]
+</pre>
+    </div>
+    <h2 id="help1-2">TestSpace-Step属性</h2>
+    <table class="table table-striped table-bordered">
+        <tbody>
+            <tr>
+                <th align="left">名称</th>
+                <th align="left">类型</th>
+                <th align="left">描述</th>
+            </tr>
+            <tr>
+                <td>name</td>
+                <td>String</td>
+                <td>步骤的名，作为步骤的主键，在一个TestSpace内这个参数必须为唯一。</td>
+            </tr>
+            <tr>
+                <td>describe</td>
+                <td>String</td>
+                <td>步骤的备注信息，在用户使用时候作为帮助信息显示。</td>
+            </tr>
+            <tr>
+                <td>attrs</td>
+                <td>Array</td>
+                <td>
+                    步骤参数列表,每个参数包含下列属性:
+                    <ul>
+                        <li>name：参数名。</li>
+                        <li>describe：参数备注。</li>
+                        <li>defValue：默认值。</li>
+                        <li>list：下拉选项。</li>
+                    </ul>
+                    <pre>
+{
+	"name": "Location",
+	"describe": "点击位置",
+	"defValue": "2"
+	"list": {
+	    "元素左侧": "1",
+	    "元素中间": "2",
+	    "元素右侧": "3",
+	 }
+}
+</pre>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <h2 id="help1-3">创建 TestSpace</h2>
+    <p>可以使用admin账户<a href="/Setting/TestSpaces">创建</a>通用的TestSpace，admin帐号下创建的TestSpace其他用户也能使用。也可以基于普通帐号<a href="/Setting/TestSpaces">创建</a>个人的TestSpace。</p>
+    <div class="bs-example" data-example-id="body-copy">
+        <img class="img-responsive" src="~/help/help1.png" />
+    </div>
+
+    <h2 id="help1-4">维护 TestSpace</h2>
+    <p>已经创建的的TestSpace可以随时维护,并不影响已经使用的案例。</p>
+    <div>
+        <ul>
+            <li>当新增一个组件（<a href="#help1-2">step</a>）时，会实时生效。</li>
+            <li>当修改一个组件（<a href="#help1-2">step</a>）的相关参数时，不会影响已有案例，已失效的参数不会从案例中删除，新增参数会在下次编辑时体现。</li>
+            <li>当删除一个组件（<a href="#help1-2">step</a>）时，不会影响已有案例，已删除的组件将作为空节点依然存在于案例中，编辑时将视为空节点处理。</li>
+        </ul>
+    </div>
+
+
+</div>
+
+<div class="bs-docs-section">
+    <h1 id="help2" class="page-header">案例 TestCase</h1>
+
+    <p class="lead">案例由多个基础组件（Step）或者模块（BlockStep）组成。</p>
+
+    <h2 id="help2-1">创建 TestCase</h2>
+    <p>右键案例树列表，创建、编辑或删除案例。</p>
+    <div class="bs-example">
+        <img class="img-responsive" src="~/help/help2.png" />
+    </div>
+
+    <h2 id="help2-2">移动 TestCase</h2>
+    <p>案例可以移动到案例树列表的任何文件夹节点上。</p>
+    <div class="bs-example">
+        <img class="img-responsive" src="~/help/help3.gif" />
+    </div>
+
+
+    <h2 id="help2-3">编辑 TestCase</h2>
+    <p>选择基础组件（Step）或者模块（BlockStep），拖拽到案例上创建步骤。</p>
+    <p>拖拽案例上的步骤到垃圾桶删除步骤，你也可以使用右键进行删除。</p>
+    <div class="bs-example" data-example-id="body-copy">
+        <img class="img-responsive" src="~/help/help4.gif" />
+    </div>
+
+    <p>双击或者右键进行步骤的编辑。</p>
+    <div class="bs-example" data-example-id="body-copy">
+        <img class="img-responsive" src="~/help/help5.gif" />
+    </div>
+</div>
+
+<div class="bs-docs-section">
+    <h1 id="help3" class="page-header">模块 BlockStep</h1>
+
+    <p class="lead">模块（BlockStep）由多个基础组件（Step）组成。</p>
+    <div class="bs-example">
+        <p>模块生成：</p>
+        <img class="img-responsive" src="~/help/help12.png" />
+        <p>模块展开：</p>
+        <img class="img-responsive" src="~/help/help11.png" />
+    </div>
+
+    <h2 id="help3-1">创建 BlockStep</h2>
+    <p>勾选多个基础组件后创建BlockStep，基础组件中的动态参数（Param）将作为模块的参数存在。</p>
+    <div class="bs-example">
+        <img class="img-responsive" src="~/help/help6.png" />
+    </div>
+
+    <h2 id="help3-2">维护 BlockStep</h2>
+    <p>
+        <ul>
+            <li>BlockStep是以引用的形式存在于案例中，修改将作用于所有使用他的案例上。</li>
+            <li>BlockStep删除不会影响已有案例，案例中已删除的BlockStep将视为空节点</li>
+            <li>BlockStep可随时修改其动态参数（Param），但不会影响已有的案例，原有案例中的缺省参数都将使用其默认值。</li>
+        </ul>
+    </p>
+    <div class="bs-example" data-example-id="body-copy">
+        <img class="img-responsive" src="~/help/help7.png" />
+    </div>
+
+
+</div>
+
+<div class="bs-docs-section">
+    <h1 id="help4" class="page-header">动态参数 Param</h1>
+
+
+    <h2 id="help4-1">定义</h2>
+    <p>
+        <ul>
+            <li>以{}包括的即为动态参数，内部文字作为参数名</li>
+            <li>动态参数可以定义在任何位置。</li>
+            <li>相同名字的参数代表同一个参数</li>
+        </ul>
+    </p>
+    <div class="bs-example">
+        <img class="img-responsive" src="~/help/help8.png" />
+    </div>
+
+    <h2 id="help4-2">使用</h2>
+    <p>
+        <ul>
+            <li>动态参数在组合成模块（BlockStep）时将作为模块的参数。</li>
+            <li>执行时，如果案例中包含动态参数必须先填写才能执行。</li>
+        </ul>
+    </p>
+
+</div>
+
+
+<div class="bs-docs-section">
+    <h1 id="help5" class="page-header">案例执行</h1>
+
+
+    <h2 id="help5-1">案例传递</h2>
+    <p>
+        平台会将测试案例通过JSON的形式发送到<b> http://localhost:8500/testRun </b>，执行端通过监听8500端口获取案例数据开始执行案例。
+    </p>
+    <div class="bs-example">
+        <img class="img-responsive" src="~/help/help10.png" />
+    </div>
+
+    <h2 id="help5-2">模块展开</h2>
+    <p>
+        <ul>
+            <li>模块（BlockStep）在执行时候将展开为基础组件（Step）。</li>
+            <li>模块（BlockStep）展开时将注入其包含的参数</li>
+        </ul>
+    </p>
+    <div class="bs-example">
+        <p>模块生成：</p>
+        <img class="img-responsive" src="~/help/help12.png" />
+        <p>模块展开：</p>
+        <img class="img-responsive" src="~/help/help11.png" />
+    </div>
+
+    <div style="height:400px;"></div>
+
+</div>

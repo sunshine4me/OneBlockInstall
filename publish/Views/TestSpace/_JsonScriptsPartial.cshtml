@@ -1,0 +1,50 @@
+﻿@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script src="~/lib/jsonlint/jsonlint.js"></script>
+<script src="~/js/auto-line-number.js"></script>
+<script>
+    window.onload = function () {
+        function formatJson() {
+            document.getElementById("result").innerHTML = "";
+            $(".SpaceForm #result").show();
+            $(".SpaceForm #result").removeClass("redBorder");
+            $(".SpaceForm .textarea-group").removeClass("redBorder");
+            try {
+                var result = jsonlint.parse(document.getElementById("spacedata").value);
+                if (result) {
+                    document.getElementById("spacedata").value = JSON.stringify(result, null, 4);
+                    document.getElementById("result").innerHTML = "json 格式验证通过!";
+                    return true;
+                }
+            } catch (e) {
+                $(".SpaceForm .textarea-group").addClass("redBorder");
+                $(".SpaceForm #result").addClass("redBorder");
+                document.getElementById("result").innerHTML = e;
+            }
+
+            return false;
+
+        }
+
+        
+
+        $("textarea").setTextareaCount({
+            width: "50px",
+            bgColor: "#fafafa",
+            color: "#AAAAAA",
+            display: "block"
+        });
+        $(".SpaceForm").submit(function () {
+            return formatJson;
+        })
+
+        $("button.format").click(function () {
+            formatJson();
+        })
+
+        formatJson();
+        
+        
+    }
+</script>

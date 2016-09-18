@@ -1,0 +1,37 @@
+﻿@using Microsoft.Extensions.Options;
+@using oneBlockWeb.DI;
+@inject IOptions<WebSetting> settings
+
+@if (User.Identity.IsAuthenticated)
+{
+    <form asp-area=""  asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
+
+        <ul class="nav navbar-nav navbar-right">
+
+            <li class="dropdown">
+
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    你好，@User.Identity.Name !
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-sw">
+                    <li><a asp-area="" asp-controller="Setting" asp-action="Account" title="Manage">帐号设置</a></li>
+                    <li><a asp-area="" asp-controller="Setting" asp-action="TestSpaces" title="Manage">TestSpace设置</a></li>
+                </ul>
+            </li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">注销</a></li>
+        </ul>
+    </form>
+
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a asp-controller="Account" asp-action="Login" asp-area="">登录</a></li>
+        @if (settings.Value.Register)
+        {
+            <li><a asp-controller="Account" asp-action="Register" asp-area="">注册</a></li>
+        }
+        
+    </ul>
+}
