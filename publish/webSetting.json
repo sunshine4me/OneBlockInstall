@@ -1,6 +1,7 @@
 ﻿{
   "server.urls": "http://*:5000",
   "WebSetting": {
+    "DefaultConnection": "Filename=App_Data/blockPlayDB.db",
     "DefultPassword": "123456",
     "DefultUseAdminSpace": true,
     "Register": true
