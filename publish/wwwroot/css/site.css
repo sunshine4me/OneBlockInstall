@@ -304,4 +304,7 @@ td[field="locked"] .fa-ban {
     margin-left: -24px;
 }
 
-
+.panel-tool a.icon-excel.light{
+    opacity: 1;
+    filter: alpha(opacity=100);
+}

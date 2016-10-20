@@ -5,16 +5,19 @@
 <div class="row">
     <div class="col-md-3">
 
-        <div id="p" class="easyui-panel" data-options="iconCls:'glyphicon glyphicon-th-large'" title="案例列表" style="width:100%;min-height:200px;padding:10px;">
+        <div id="p" class="easyui-panel" data-options="iconCls:'glyphicon glyphicon-th-large',tools:'#p-tt'" title="案例列表" style="width:100%;min-height:200px;padding:10px;">
             <ul id="caseTreeList"></ul>
         </div>
 
+        <div id="p-tt">
+            <a href="javascript:void(0)" class="icon-excel" title="生成数据场景" onclick="downExcel()"></a>
+        </div>
 
     </div>
 
     <div id="paneltab" class="easyui-tabs col-md-9">
         <div title="帮助" data-options="iconCls:'icon-help',closable:true" style="padding:10px">
-           
+
             <div class="bs-docs-section">
                 <h1 id="help2" class="page-header">案例 TestCase</h1>
 
@@ -142,7 +145,7 @@
 
         using(["tree", "messager"], function () {
             $('#caseTreeList').tree({
-                checkbox: false,
+                checkbox: true,
                 lines: true,
                 animate: true,
                 dnd: true,
@@ -184,19 +187,30 @@
                 onBeforeDrop: function (target, source, point) {
                     var targetNode = $(this).tree("getNode", target);
 
-                    var ret = false;
+                    var defer = $.Deferred();
                     $.ajax({
                         url: 'sort',
                         type: 'post',
-                        async: false,//使用同步的方式,页面会卡住,需要优化
+                        //async: false,//使用同步的方式,页面会卡住,需要优化 re:优化完成
                         data: { targetID: targetNode.id, sourceID: source.id },
                         success: function (data) {
-                            ret = true;
+                            defer.resolve(true);
                         }
                     });
-                    return ret;
+                    return defer.promise();
 
                 },
+                onCheck: function (node, checked) {
+                    if (checked) {
+                        if (node.type == 0 && node.state == "closed")
+                            $(this).tree("expand", node.target);
+                        $(".panel-tool a.icon-excel").addClass("light");
+                    }
+                    else {
+                        if ($(this).tree("getChecked").length == 0)
+                            $(".panel-tool a.icon-excel").removeClass("light");
+                    }
+                }
             });
         });
 
@@ -208,7 +222,7 @@
                     data[i].state = "closed";
             }
         }
-       
+
 
         $(".txtEdit").click(function (event) {
             var node = $("#caseTreeList").tree("getSelected");
@@ -316,7 +330,7 @@
             editFile(selectNode);
 
         });
-      
+
         function editFile(node) {
             $('#paneltab').tabs('add', {
                 id: node.id,
@@ -325,7 +339,7 @@
                 iconCls: 'icon-file',
                 content: '<iframe scrolling="yes" frameborder="0"  src="caseTab/' + node.id + '" style="width:100%;"></iframe>',
                 closable: true,
-                tools:[{
+                tools: [{
                     iconCls: 'icon-mini-refresh',
                     handler: function () {
                         $.messager.confirm('Message', '确认重新载入:' + node.text + '?', function (r) {
@@ -341,7 +355,7 @@
                                 }
                             }
                         });
-                        
+
                     }
                 }]
             });
@@ -388,7 +402,21 @@
             });
         }
 
-        
+        function downExcel() {
+            var CheckedNode = $('#caseTreeList').tree("getChecked");
+
+            var caseID = [];
+            for (var i = 0; i < CheckedNode.length; i++) {
+                if (CheckedNode[i].type == 1)
+                    caseID.push(CheckedNode[i].id);
+            }
+
+            if (caseID.length == 0)
+                alert("请选择至少一个测试案例,或打开未加载的文件夹!");
+            else {
+                $.download('/TestCase/downExcel', { ids: caseID }, 'post');
+            }
+        }
 
     </script>
 }
