@@ -197,12 +197,22 @@
                     _23 = _26;
                     _24 = $(this).hasClass("tree-node-top") ? "top" : "bottom";
                 }
-                if (_14.onBeforeDrop.call(_12, _22, _1b(_21), _24) == false) {
+
+                //re:添加异步方法
+                $.when(_14.onBeforeDrop.call(_12, _22, _1b(_21), _24)).done(function (res) {
+                    if (res == false) {
+                        $(this).removeClass("tree-node-append tree-node-top tree-node-bottom");
+                        return;
+                    }
+                    _23(_21, _22, _24);
                     $(this).removeClass("tree-node-append tree-node-top tree-node-bottom");
-                    return;
-                }
-                _23(_21, _22, _24);
-                $(this).removeClass("tree-node-append tree-node-top tree-node-bottom");
+                });       
+                //if (_14.onBeforeDrop.call(_12, _22, _1b(_21), _24) == false) {
+                //    $(this).removeClass("tree-node-append tree-node-top tree-node-bottom");
+                //    return;
+                //}
+                //_23(_21, _22, _24);
+                //$(this).removeClass("tree-node-append tree-node-top tree-node-bottom");
             }
         });
         function _1b(_27, pop) {
